@@ -13,6 +13,7 @@ test('Login multiple times sucessfully @c1', async ({ page }) => {
     await expect(page.locator(`#successMessage`)).toContainText('Successfully submitted!');
     await expect(page.locator(`#successMessage`)).toContainText(`Email: test${i}@example.com`);
     await expect(page.locator(`#successMessage`)).toContainText(`Password: password${i}`);
+    await page.waitForSelector('#successMessage', {state: 'hidden'})
   }
 });
 
@@ -22,8 +23,9 @@ test('Login animated form and logout sucessfully @c2', async ({ page }) => {
   await page.locator(`//*[@href='/challenge2.html']`).click();
   await page.locator('#email').fill(`test1@example.com`);
   await page.locator('#password').fill(`password1`);
-  await page.locator('#submitButton').click();
-  await page.locator('#menuButton').click();
+  await page.locator('#submitButton').dispatchEvent('click');
+  await page.locator('#menuButton').click({delay: 700});
+  await page.waitForSelector('#logoutOption', {state: "visible"});
   await page.locator('#logoutOption').click();
 });
 
@@ -32,7 +34,8 @@ test('Forgot password @c3', async ({ page }) => {
   await page.goto('/');
   await page.locator(`//*[@href='/challenge3.html']`).click();
   await page.getByRole('button', { name: 'Forgot Password?' }).click();
-  await page.locator('#email').fill('test@example.com');
+  await page.waitForSelector('#email', {state: 'visible'})
+  await page.locator('//h2[text()="Reset Password"]/following::input').fill('test@example.com');
   await page.getByRole('button', { name: 'Reset Password' }).click();
   await expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible();
   await expect(page.locator('#mainContent')).toContainText('Password reset link sent!');
@@ -42,6 +45,7 @@ test('Forgot password @c3', async ({ page }) => {
 test('Login and logout @c4', async ({ page }) => {
   await page.goto('/');
   await page.locator(`//*[@href='/challenge4.html']`).click();
+  await page.waitForFunction('window.isAppReady === true');
   await page.locator('#email').fill(`test@example.com`);
   await page.locator('#password').fill(`password`);
   await page.locator('#submitButton').click();
