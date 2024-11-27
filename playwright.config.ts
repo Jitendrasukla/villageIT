@@ -6,14 +6,14 @@ export default defineConfig({
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 3 : 1,
+  workers: process.env.CI ? 3 : 4,
   reporter: [['html', { open: 'never' }], ['dot']],
   timeout: 2 * 60 * 1000,
   expect: {
     timeout: 5 * 1000,
   },
   use: {
-    headless: true,
+    headless: false,
     ignoreHTTPSErrors: true,
     acceptDownloads: true,
     testIdAttribute: 'data-testid',
