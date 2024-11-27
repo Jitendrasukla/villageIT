@@ -1,0 +1,43 @@
+testcase: @c1
+Motive: User trying to login mutliple times successively
+Issues Noticed: showSuccessMessage() clears the form after a delay, but email and password fields are fed before success message div is goes invisible
+this leads to clearing the form fields and ending up with empty/null values on successive logins.
+Possible Solutions:
+1. wait for success message to go off before feeding the inputs
+Implementation: same as #1
+Enhancements:
+1. add use case to validate login form is rendered again post the success message invisiblity
+
+testcase: @c2
+Motive: User trying to login to an animated login button and also to click on logout button post login
+Issues Noticed:
+1. Login button is not static and rather in movement for some time
+2. Fields of My Account menu takes a bit to load
+Possible Solutions:
+For Login button:
+1. Wait for login button to settle (long process may take longer or may not be stable at all) - not advised
+2. Tab and Enter from password field - delegate click action to browser - works but could fail if there are any intermediate elements
+3. Use Javascript execution and click on login button 
+Implementation: #3
+Enhancements:
+1. Added validations for welcome message and email id
+
+
+testcase: @c3
+Motive: User tries to reset the password by providing an email id
+Issues Noticed: Stale element that pops up due to a delayed action of showForgotPassword() method
+Possible Solutions: 
+1. Wait for some element that has visibility only when the forgotpassword flow is active(back to login in this case)
+Implementation: #1
+Enhancements: 
+1. Added validations related to email id and message
+
+testcase: @c4
+Motive: User tries to login and logout of the application
+Issues Noticed: App takes a while before accepting user interatactions
+Possible Solutions:
+1. Wait for App to be ready by checking the window variable
+Implementation: #1
+Enhancements:
+1. Added validation for user email under dropdown menu
+2. We can further add validations for dropdown functionalies (as it grows)
